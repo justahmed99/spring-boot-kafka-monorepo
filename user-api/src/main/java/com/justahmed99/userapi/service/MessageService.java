@@ -5,4 +5,5 @@ import reactor.core.publisher.Mono;
 
 public interface MessageService {
     Mono<Boolean> publish(MessageRequest request);
+    Mono<Object> getNews(String date);
 }

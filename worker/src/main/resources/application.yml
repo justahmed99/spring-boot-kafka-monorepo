@@ -4,3 +4,14 @@ server:
 spring:
   kafka:
     bootstrap-servers: localhost:29092
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: myredis
+
+mediastack:
+  uri: http://api.mediastack.com/v1/news
+  api-key: 1d9b499116dc4cc3cbdba3c9759a56be
+  countries: us
+  limit: 25
