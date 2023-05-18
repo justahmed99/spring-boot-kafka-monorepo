@@ -12,6 +12,6 @@ spring:
 
 mediastack:
   uri: http://api.mediastack.com/v1/news
-  api-key: 1d9b499116dc4cc3cbdba3c9759a56be
+  api-key: <your-api-key>
   countries: us
   limit: 25
