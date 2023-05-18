@@ -9,8 +9,6 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class WebClientServiceImpl implements WebClientService {
-    @Value("${mediastack.uri}")
-    private String apiUri;
 
     @Value("${mediastack.api-key}")
     private String apiKey;

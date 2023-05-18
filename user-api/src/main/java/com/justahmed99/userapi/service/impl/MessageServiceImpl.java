@@ -1,6 +1,5 @@
 package com.justahmed99.userapi.service.impl;
 
-import com.justahmed99.userapi.dto.request.MessageRequest;
 import com.justahmed99.userapi.repository.NewsRepository;
 import com.justahmed99.userapi.service.MessageService;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -23,14 +22,18 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public Mono<Boolean> publish(MessageRequest request) {
-        ProducerRecord<String, String> record = new ProducerRecord<>("news", null, request.getMessage());
+    public Mono<Void> publishToMessageBroker(String date) {
+        ProducerRecord<String, String> record = new ProducerRecord<>("news", null, date);
         return Mono.fromFuture(kafkaTemplate.send(record))
-                .map(result -> result.getRecordMetadata().hasOffset());
+                .then();
+//                .map(result -> result.getRecordMetadata().hasOffset())
+//                .flatMap(aBoolean -> Mono.empty());
     }
 
     @Override
     public Mono<Object> getNews(String date) {
-        return newsRepository.getNews(date);
+        return newsRepository.getNews(date)
+                .flatMap(Mono::just)
+                .switchIfEmpty(Mono.defer(() -> publishToMessageBroker(date)));
     }
 }

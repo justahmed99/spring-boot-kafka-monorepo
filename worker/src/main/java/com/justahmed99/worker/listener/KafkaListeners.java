@@ -9,7 +9,6 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
-import java.net.http.HttpResponse;
 
 @Component
 public class KafkaListeners {
