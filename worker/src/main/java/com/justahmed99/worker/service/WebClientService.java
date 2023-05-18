@@ -1,9 +1,8 @@
 package com.justahmed99.worker.service;
 
+import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Mono;
 
-import java.net.http.HttpResponse;
-
 public interface WebClientService {
-    Mono<HttpResponse> sendRequest(String date);
+    Mono<ResponseEntity<String>> sendRequest(String date);
 }

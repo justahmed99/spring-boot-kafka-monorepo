@@ -2,13 +2,10 @@ package com.justahmed99.worker.service.impl;
 
 import com.justahmed99.worker.service.WebClientService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
-
-import java.net.URI;
-import java.net.http.HttpResponse;
 
 @Service
 public class WebClientServiceImpl implements WebClientService {
@@ -31,17 +28,15 @@ public class WebClientServiceImpl implements WebClientService {
     }
 
     @Override
-    public Mono<HttpResponse> sendRequest(String date) {
-        URI uri = UriComponentsBuilder.fromUriString(apiUri)
-                .queryParam("access_key", apiKey)
-                .queryParam("countries", countries)
-                .queryParam("limit", limit)
-                .queryParam("date", date)
-                .build()
-                .toUri();
+    public Mono<ResponseEntity<String>> sendRequest(String date) {
         return webClient.get()
-                .uri(uri)
+                .uri(uriBuilder -> uriBuilder
+                        .queryParam("access_key", apiKey)
+                        .queryParam("countries", countries)
+                        .queryParam("limit", limit)
+                        .queryParam("date", date)
+                        .build())
                 .retrieve()
-                .bodyToMono(HttpResponse.class);
+                .toEntity(String.class);
     }
 }
